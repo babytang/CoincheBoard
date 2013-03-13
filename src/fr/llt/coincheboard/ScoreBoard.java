@@ -9,57 +9,52 @@ import android.widget.GridView;
 import android.widget.TextView;
 import fr.llt.coincheboard.MiseFragment.MiseFragmentListener;
 import fr.llt.coincheboard.PlayFragment.PlayFragmentListener;
+import fr.llt.coincheboard.data.Game;
 
 public class ScoreBoard extends FragmentActivity implements
 		MiseFragmentListener, PlayFragmentListener {
-
 	private ScoreAdapter scoreAdapter;
-	private int currentDealer;
+	private Game game;
+
+	public Game getGame() {
+		return this.game;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Intent intent = getIntent();
-		Bundle extras = intent.getExtras();
-		boolean fourPlayersEnabled = extras
-				.getBoolean(NewGameActivity.IS_4_PLAYERS);
-		CharSequence[] playersName = new CharSequence[fourPlayersEnabled ? 4
-				: 3];
-		for (int i = 0; i < NewGameActivity.PLAYERS_NAME.length; i++) {
-			if (i != 3 || fourPlayersEnabled) {
-				playersName[i] = extras
-						.getCharSequence(NewGameActivity.PLAYERS_NAME[i]);
-			}
+
+		this.game = (Game) this.getLastCustomNonConfigurationInstance();
+		if (this.game == null) {
+			Intent intent = getIntent();
+			Bundle extras = intent.getExtras();
+			this.game = (Game) extras.get(NewGameActivity.GAME);
 		}
-		Game.setPlayersName(playersName);
-		this.currentDealer = extras.getInt(NewGameActivity.DEALER);
 
 		setContentView(R.layout.activity_score_board);
-
-		GridView scoreBoard = (GridView) findViewById(R.id.scoreBoard);
-
 		this.updateCurrentDealer();
 
-		scoreBoard.setNumColumns(Game.getNbOfTeam());
+		GridView scoreBoard = (GridView) findViewById(R.id.scoreBoard);
+		scoreBoard.setNumColumns(this.game.getTeams().getNumberOfTeam());
 
-		scoreAdapter = new ScoreAdapter(this);
-		scoreBoard.setAdapter(scoreAdapter);
-		
+		this.scoreAdapter = new ScoreAdapter(this);
+		scoreBoard.setAdapter(this.scoreAdapter);
+
 		findViewById(R.id.playFragment).setVisibility(View.INVISIBLE);
 	}
 
 	private void nextDealer() {
-		this.currentDealer += 1;
-		if (this.currentDealer >= Game.getPlayersName().length) {
-			this.currentDealer = 0;
+		int currentDealer = this.game.getDealer() + 1;
+		if (currentDealer >= this.game.getTeams().getNumberOfPlayer()) {
+			currentDealer = 0;
 		}
+		this.game.setDealer(currentDealer);
 		this.updateCurrentDealer();
 	}
 
 	private void updateCurrentDealer() {
 		TextView textView = (TextView) findViewById(R.id.dealerTextView);
-		textView.setText(Game.getPlayersName()[this.currentDealer]);
+		textView.setText(this.game.getTeams().getName(this.game.getDealer()));
 	}
 
 	@Override
@@ -86,8 +81,15 @@ public class ScoreBoard extends FragmentActivity implements
 	public void onPlayDone() {
 		findViewById(R.id.miseFragment).setVisibility(View.VISIBLE);
 		this.scoreAdapter.notifyDataSetChanged();
-		
-		MiseFragment miseFragment = (MiseFragment) getSupportFragmentManager().findFragmentById(R.id.miseFragment);
+
+		MiseFragment miseFragment = (MiseFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.miseFragment);
 		miseFragment.skip(null);
 	}
+
+	@Override
+	public Object onRetainCustomNonConfigurationInstance() {
+		return this.game;
+	}
+
 }

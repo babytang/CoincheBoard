@@ -12,6 +12,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import fr.llt.coincheboard.data.Bet;
+import fr.llt.coincheboard.data.Game;
+import fr.llt.coincheboard.data.ScoreTurn;
 
 public class PlayFragment extends Fragment {
 	// 0-2 are team
@@ -29,6 +32,7 @@ public class PlayFragment extends Fragment {
 
 	public static interface PlayFragmentListener {
 		void onPlayDone();
+		Game getGame();
 	}
 
 	private class MyTextWatcher implements TextWatcher {
@@ -72,7 +76,7 @@ public class PlayFragment extends Fragment {
 		View view = inflater.inflate(R.layout.activity_play_fragment,
 				container, false);
 
-		if (Game.getNbOfTeam() == 2) {
+		if (this.listener.getGame().getTeams().getNumberOfTeam() == 2) {
 			view.findViewById(R.id.teamThreePlay).setVisibility(View.INVISIBLE);
 			view.findViewById(R.id.teamThreeBonus)
 					.setVisibility(View.INVISIBLE);
@@ -124,7 +128,7 @@ public class PlayFragment extends Fragment {
 		}
 
 		this.score[index] = score;
-		int size = Game.getNbOfTeam() == 2 ? 2 : 4;
+		int size = this.listener.getGame().getTeams().getNumberOfTeam() == 2 ? 2 : 4;
 		int total = 0;
 		boolean onlyOneNotSetted = false;
 		int indexNotSetted = -1;
@@ -156,7 +160,10 @@ public class PlayFragment extends Fragment {
 	}
 
 	private void validButtonClicked() {
-		int[] scores = new int[Game.getNbOfTeam()];
+		Game game = this.listener.getGame();
+		Bet bet = game.getBet();
+
+		int[] scores = new int[game.getTeams().getNumberOfTeam()];
 		for (int i = 0; i < scores.length; i++) {
 			EditText editText = (EditText) this.getActivity().findViewById(
 					bonusId[i]);
@@ -165,15 +172,14 @@ public class PlayFragment extends Fragment {
 			}
 		}
 
-		Log.w("ScoreBoard",
-				"Mise " + Game.getMise() + " Team " + Game.getTeam());
-		int totalTeam = scores[Game.getTeam()] + this.score[Game.getTeam()];
+		int totalTeam = scores[bet.getDeclarer()]
+				+ this.score[bet.getDeclarer()];
 		int bestScore = -1;
-		boolean win = totalTeam >= Game.getMise();
-		int winner = Game.getTeam();
+		boolean win = totalTeam >= bet.getBet();
+		int winner = bet.getDeclarer();
 		boolean specialCase = false;
 		for (int i = 0; i < scores.length; i++) {
-			if (i == Game.getTeam()) {
+			if (i == bet.getDeclarer()) {
 				continue;
 			}
 			int otherScore = scores[i] + this.score[i];
@@ -189,21 +195,22 @@ public class PlayFragment extends Fragment {
 		}
 
 		for (int i = 0; i < scores.length; i++) {
-			if (i == Game.getTeam()) {
+			if (i == bet.getDeclarer()) {
 				if (win) {
-					scores[i] += Game.getMise() + this.score[i];
+					scores[i] += bet.getBet() + this.score[i];
 				}
 			} else {
 				if (specialCase || winner == i) {
-					scores[i] += Game.getMise() + this.score[i]
-							+ this.score[Game.getTeam()];
+					scores[i] += bet.getBet() + this.score[i]
+							+ this.score[bet.getDeclarer()];
 				} else {
 					scores[i] += this.score[i];
 				}
 			}
 		}
 
-		Game.setScore(scores);
+		ScoreTurn turn = new ScoreTurn(bet, scores);
+		game.getScore().addTurn(turn);
 		View miseFragment = getActivity().findViewById(R.id.playFragment);
 		miseFragment.setVisibility(View.INVISIBLE);
 

@@ -3,19 +3,22 @@ package fr.llt.coincheboard;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ToggleButton;
+import fr.llt.coincheboard.data.Bet;
+import fr.llt.coincheboard.data.Game;
 
 public class MiseFragment extends Fragment {
 	public static interface MiseFragmentListener {
 		void onSkip();
 
 		void onMiseDone();
+		
+		Game getGame();
 	}
 
 	private static int[] colorToggleButtonId = new int[] { R.id.button4,
@@ -35,17 +38,17 @@ public class MiseFragment extends Fragment {
 			R.id.toggleButton20 };
 
 	private boolean more;
-	private int mise;
-	private int color;
-	private int team;
+	private int bet;
+	private int trumpSuit;
+	private int declarer;
 
-	private MiseFragmentListener lisetener;
+	private MiseFragmentListener listener;
 
 	private void reset() {
 		this.more = true;
-		this.mise = -1;
-		this.color = -1;
-		this.team = -1;
+		this.bet = -1;
+		this.trumpSuit = -1;
+		this.declarer = -1;
 	}
 
 	@Override
@@ -88,11 +91,11 @@ public class MiseFragment extends Fragment {
 				updateScoreButton(v);
 			}
 		}, R.id.button9);
-		
-		if (Game.getNbOfTeam() == 2) {
+
+		if (this.listener.getGame().getTeams().getNumberOfTeam() == 2) {
 			view.findViewById(R.id.button3).setVisibility(View.INVISIBLE);
 		}
-
+		
 		return view;
 	}
 
@@ -115,7 +118,7 @@ public class MiseFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.lisetener = (MiseFragmentListener) activity;
+		this.listener = (MiseFragmentListener) activity;
 	}
 
 	public void updateScoreButton(View view) {
@@ -142,17 +145,19 @@ public class MiseFragment extends Fragment {
 	}
 
 	public void scoreButtonClicked(View view) {
-		this.mise = this.getStartScore() + 10 * resetOtherToggleButton(view.getId(), scoreToggleButtonId);
+		this.bet = this.getStartScore() + 10
+				* resetOtherToggleButton(view.getId(), scoreToggleButtonId);
 		this.checkMiseDone();
 	}
 
 	public void colorChosen(View view) {
-		this.color = resetOtherToggleButton(view.getId(), colorToggleButtonId);
+		this.trumpSuit = resetOtherToggleButton(view.getId(),
+				colorToggleButtonId);
 		this.checkMiseDone();
 	}
 
 	public void teamChosen(View view) {
-		this.team = resetOtherToggleButton(view.getId(), teamToggleButtonId);
+		this.declarer = resetOtherToggleButton(view.getId(), teamToggleButtonId);
 		this.checkMiseDone();
 	}
 
@@ -176,23 +181,24 @@ public class MiseFragment extends Fragment {
 		this.resetOtherToggleButton(-1, colorToggleButtonId);
 		this.resetOtherToggleButton(-1, scoreToggleButtonId);
 		this.resetOtherToggleButton(-1, teamToggleButtonId);
-		
-		this.lisetener.onSkip();
+
+		this.listener.onSkip();
 	}
 
 	private int getStartScore() {
-		int start = Game.getNbOfTeam() == 2 ? 80 : 70;
+		int start = this.listener.getGame().getTeams().getNumberOfTeam() == 2 ? 80 : 70;
 		start += this.more ? scoreToggleButtonId.length * 10 : 0;
 		return start;
 	}
 
 	private void checkMiseDone() {
-		if (this.mise != -1 && this.color != -1 && this.team != -1) {
-			Log.w("ScoreBoard", "Mise " + mise + " Team " + team);
-			Game.setMise(this.mise, this.team);
+		if (this.bet != -1 && this.trumpSuit != -1 && this.declarer != -1) {
+			Bet bet = new Bet(this.declarer, this.bet, this.trumpSuit);
+			this.listener.getGame().setBet(bet);
+
 			View miseFragment = getActivity().findViewById(R.id.miseFragment);
 			miseFragment.setVisibility(View.INVISIBLE);
-			this.lisetener.onMiseDone();
+			this.listener.onMiseDone();
 		}
 	}
 }

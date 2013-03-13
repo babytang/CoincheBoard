@@ -5,22 +5,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import fr.llt.coincheboard.data.Game;
+import fr.llt.coincheboard.data.Score;
+import fr.llt.coincheboard.data.Teams;
 
 public class ScoreAdapter extends BaseAdapter {
 	private final Context context;
+	private final Game game;
 
-	public ScoreAdapter(Context context) {
+	public ScoreAdapter(ScoreBoard context) {
 		this.context = context;
+		this.game = context.getGame();
 	}
-	
+
 	@Override
 	public int getCount() {
-		int headerRow = getNbOfRowInHeader();// + (this.playPart ? 1 : 0); 
-		return (Game.getScoresSize() + 1 + headerRow) * getNbOfColumn();
+		int headerRow = getNbOfRowInHeader();// + (this.playPart ? 1 : 0);
+		return (this.game.getScore().getNumberOfTurn() + 1 + headerRow)
+				* getNbOfColumn();
 	}
 
 	private int getNbOfColumn() {
-		return Game.getNbOfTeam();
+		return this.game.getTeams().getNumberOfTeam();
 	}
 
 	private int getNbOfRowInHeader() {
@@ -48,19 +54,22 @@ public class ScoreAdapter extends BaseAdapter {
 		} else {
 			result = (TextView) convertView;
 		}
-	
+
 		int col = position % this.getNbOfColumn();
 		int row = position / this.getNbOfColumn();
-		
+
+		Teams teams = this.game.getTeams();
+		Score score = this.game.getScore();
+
 		if (row < this.getNbOfRowInHeader()) {
-			result.setText(Game.getPlayersName()[col + row * Game.getNbOfTeam()]);
-		} else if (row >= this.getNbOfRowInHeader() + Game.getScoresSize()) {
-			result.setText(String.valueOf(Game.getTotalScores()[col]));
+			result.setText(teams.getName(col + row * teams.getNumberOfTeam()));
+		} else if (row >= this.getNbOfRowInHeader() + score.getNumberOfTurn()) {
+			result.setText(String.valueOf(score.getTotal(col)));
 		} else {
 			row -= this.getNbOfRowInHeader();
-			result.setText(String.valueOf(Game.getScores(row)[col]));
+			result.setText(String.valueOf(score.getTurn(row).getScores(col)));
 		}
-		
+
 		return result;
 	}
 }

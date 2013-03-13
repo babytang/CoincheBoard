@@ -3,6 +3,9 @@ package fr.llt.coincheboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.llt.coincheboard.data.Game;
+import fr.llt.coincheboard.data.Teams;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,14 +25,7 @@ import android.widget.TextView;
 
 public class NewGameActivity extends Activity implements
 		OnCheckedChangeListener {
-	public static final String DEALER = "fr.llt.coincheboard.dealer";
-
-	public static final String IS_4_PLAYERS = "fr.llt.coincheboard.4Players";
-
-	public static final String[] PLAYERS_NAME = new String[] {
-			"fr.llt.coincheboard.playerNorth",
-			"fr.llt.coincheboard.playerWest",
-			"fr.llt.coincheboard.playerSouth", "fr.llt.coincheboard.playerEast" };
+	public static final String GAME = "fr.llt.coincheboard.game";
 
 	private static final int[] ID_EDIT_TEXT = new int[] { R.id.playerNorthName,
 			R.id.playerWestName, R.id.playerSouthName, R.id.playerEastName };;
@@ -123,11 +119,9 @@ public class NewGameActivity extends Activity implements
 	}
 
 	public void startGame(View view) {
-		Intent intent = new Intent(this, ScoreBoard.class);
-
 		RadioButton radio4 = (RadioButton) findViewById(R.id.radio4Players);
 		boolean fourPlayerEnabled = radio4.isChecked();
-		intent.putExtra(IS_4_PLAYERS, fourPlayerEnabled);
+		String[] playersName = new String[fourPlayerEnabled ? 4 : 3];
 
 		for (int i = 0; i < ID_EDIT_TEXT.length; i++) {
 			if (i != 3 || fourPlayerEnabled) {
@@ -135,15 +129,19 @@ public class NewGameActivity extends Activity implements
 				CharSequence text = editText.getText();
 				if (text.length() == 0) {
 					TextView textView = (TextView) findViewById(ID_TEXT_VIEW[i]);
-					intent.putExtra(PLAYERS_NAME[i], textView.getText());
+					playersName[i] = textView.getText().toString();
 				} else {
-					intent.putExtra(PLAYERS_NAME[i], text);
+					playersName[i] = text.toString();
 				}
 			}
 		}
+		Teams teams = new Teams(playersName);
 
 		Spinner spinner = (Spinner) findViewById(R.id.dealerSpinner);
-		intent.putExtra(DEALER, spinner.getSelectedItemPosition());
+		Game game = new Game(teams, spinner.getSelectedItemPosition());
+
+		Intent intent = new Intent(this, ScoreBoard.class);
+		intent.putExtra(GAME, game);
 
 		startActivity(intent);
 	}
