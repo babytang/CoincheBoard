@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.llt.coincheboard"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="fr.llt.coincheboard.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="fr.llt.coincheboard.NewGameActivity"
+            android:label="@string/title_activity_new_game"
+            android:parentActivityName="fr.llt.coincheboard.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.llt.coincheboard.MainActivity" />
+        </activity>
+        <activity
+            android:name="fr.llt.coincheboard.ScoreBoard"
+            android:label="@string/title_activity_score_board" >
+        </activity>
+        <activity
+            android:name="fr.llt.coincheboard.MiseFragment"
+            android:label="@string/title_activity_mise_fragment" >
+        </activity>
+        <activity
+            android:name="fr.llt.coincheboard.PlayFragment"
+            android:label="@string/title_activity_play_fragment" >
+        </activity>
+    </application>
+
+</manifest>
