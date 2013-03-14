@@ -33,38 +33,32 @@
         <ToggleButton
             android:id="@+id/toggleButton1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton13"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton17"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton21"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
     </TableRow>
 
     <TableRow
@@ -73,7 +67,7 @@
         android:layout_height="wrap_content" >
 
         <ToggleButton
-            android:id="@+id/button2"
+            android:id="@+id/teamTwoCoinche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/teamTwo"
@@ -91,38 +85,32 @@
         <ToggleButton
             android:id="@+id/toggleButton4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton7"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton14"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton18"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton22"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
     </TableRow>
 
     <TableRow
@@ -131,7 +119,7 @@
         android:layout_height="wrap_content" >
 
         <ToggleButton
-            android:id="@+id/button3"
+            android:id="@+id/teamThreeCoinche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/teamThree"
@@ -149,38 +137,32 @@
         <ToggleButton
             android:id="@+id/toggleButton5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton8"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton11"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton15"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton19"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton23"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
     </TableRow>
 
     <TableRow
@@ -205,32 +187,27 @@
         <ToggleButton
             android:id="@+id/toggleButton6"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton9"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton12"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <ToggleButton
             android:id="@+id/toggleButton20"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/button9"

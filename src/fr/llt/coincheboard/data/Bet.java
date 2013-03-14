@@ -33,16 +33,29 @@ public class Bet implements Parcelable {
 	 * The color of the trump. 0: spades, 1: hearts, 2: clubs and 3: diamonds
 	 */
 	private final int trumpSuit;
+	
+	/**
+	 * -1 if not coinched, if not it's the team number that coinched.
+	 */
+	private int coinched;
+	
+	/**
+	 * true if the declarer has over-coinched.
+	 */
+	private boolean overCoinched;
 
 	public Bet(int declarer, int bet, int trumpSuit) {
 		this.declarer = declarer;
 		this.bet = bet;
 		this.trumpSuit = trumpSuit;
+		this.coinched = -1;
 	}
 	
 	private Bet(Parcel source) {
-		this.declarer = source.readInt();
+		this.coinched = source.readInt();
 		this.bet = source.readInt();
+		this.declarer = source.readInt();
+		this.overCoinched = source.readByte() == 1;
 		this.trumpSuit = source.readInt();
 	}
 
@@ -57,6 +70,26 @@ public class Bet implements Parcelable {
 	public int getTrumpSuit() {
 		return this.trumpSuit;
 	}
+	
+	public int getCoinched() {
+		return this.coinched;
+	}
+	
+	public boolean isCoinched() {
+		return this.coinched != -1;
+	}
+
+	public void setCoinched(int coinched) {
+		this.coinched = coinched;
+	}
+
+	public boolean isOverCoinched() {
+		return this.overCoinched;
+	}
+
+	public void setOverCoinched(boolean overCoinched) {
+		this.overCoinched = overCoinched;
+	}
 
 	@Override
 	public int describeContents() {
@@ -65,8 +98,10 @@ public class Bet implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(this.declarer);
 		dest.writeInt(this.bet);
+		dest.writeInt(this.coinched);
+		dest.writeInt(this.declarer);
+		dest.writeByte((byte) (this.overCoinched ? 1 : 0));
 		dest.writeInt(this.trumpSuit);
 	}
 }

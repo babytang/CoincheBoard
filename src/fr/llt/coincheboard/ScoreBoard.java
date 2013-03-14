@@ -74,6 +74,10 @@ public class ScoreBoard extends FragmentActivity implements
 
 	@Override
 	public void onMiseDone() {
+		PlayFragment playFragement = (PlayFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.playFragment);
+		playFragement.initCoincheButtonVisibility();
+
 		findViewById(R.id.playFragment).setVisibility(View.VISIBLE);
 	}
 

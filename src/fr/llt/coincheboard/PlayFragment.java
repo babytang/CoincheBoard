@@ -28,10 +28,14 @@ public class PlayFragment extends Fragment {
 	private static final int[] bonusId = new int[] { R.id.teamOneBonus,
 			R.id.teamTwoBonus, R.id.teamThreeBonus };
 
+	private static final int[] coincheId = new int[] { R.id.teamOneCoinche,
+			R.id.teamTwoCoinche, R.id.teamThreeCoinche };
+
 	private PlayFragmentListener listener;
 
 	public static interface PlayFragmentListener {
 		void onPlayDone();
+
 		Game getGame();
 	}
 
@@ -62,6 +66,19 @@ public class PlayFragment extends Fragment {
 				score[this.index] = -1;
 				enableValidButton(false);
 			}
+		}
+	}
+
+	private class CoincheButtonListener implements OnClickListener {
+		private int team;
+
+		public CoincheButtonListener(int team) {
+			this.team = team;
+		}
+
+		@Override
+		public void onClick(View v) {
+			coinched(this.team);
 		}
 	}
 
@@ -99,6 +116,11 @@ public class PlayFragment extends Fragment {
 
 		this.reset();
 
+		for (int i = 0; i < coincheId.length; i++) {
+			Button coincheButton = (Button) view.findViewById(coincheId[i]);
+			coincheButton.setOnClickListener(new CoincheButtonListener(i));
+		}
+
 		return view;
 	}
 
@@ -128,7 +150,8 @@ public class PlayFragment extends Fragment {
 		}
 
 		this.score[index] = score;
-		int size = this.listener.getGame().getTeams().getNumberOfTeam() == 2 ? 2 : 4;
+		int size = this.listener.getGame().getTeams().getNumberOfTeam() == 2 ? 2
+				: 4;
 		int total = 0;
 		boolean onlyOneNotSetted = false;
 		int indexNotSetted = -1;
@@ -140,7 +163,9 @@ public class PlayFragment extends Fragment {
 				total += this.score[i];
 			}
 		}
-		this.lastUpdatedIndex = indexNotSetted;
+		if (onlyOneNotSetted) {
+			this.lastUpdatedIndex = indexNotSetted;
+		}
 
 		if (onlyOneNotSetted) {
 			int newScore = total == 0 ? 252 : 162 - total;
@@ -194,21 +219,56 @@ public class PlayFragment extends Fragment {
 			}
 		}
 
-		for (int i = 0; i < scores.length; i++) {
-			if (i == bet.getDeclarer()) {
-				if (win) {
-					scores[i] += bet.getBet() + this.score[i];
-				}
-			} else {
-				if (specialCase || winner == i) {
-					scores[i] += bet.getBet() + this.score[i]
-							+ this.score[bet.getDeclarer()];
+		// TODO very ugly should be simplified.
+		if (bet.isCoinched()) {
+			int multiplier = 2;
+			if (bet.isOverCoinched()) {
+				multiplier = 3;
+			}
+			for (int i = 0; i < scores.length; i++) {
+				if (i == bet.getDeclarer()) {
+					if (win) {
+						scores[i] += bet.getBet()
+								+ (this.score[i] + this.score[bet.getCoinched()])
+								* multiplier;
+					}
 				} else {
-					scores[i] += this.score[i];
+					if (i == bet.getCoinched()) {
+						if (winner == i && !specialCase) {
+							scores[i] += bet.getBet()
+									+ (this.score[i] + this.score[bet
+											.getDeclarer()]) * multiplier;
+						}
+					} else {
+						if (winner == i || specialCase) {
+							scores[i] += bet.getBet()
+									+ (this.score[i]
+											+ this.score[bet.getDeclarer()] + this.score[bet
+												.getCoinched()]) * multiplier;
+						} else {
+							scores[i] += this.score[i];
+						}
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < scores.length; i++) {
+				if (i == bet.getDeclarer()) {
+					if (win) {
+						scores[i] += bet.getBet() + this.score[i];
+					}
+				} else {
+					if (specialCase || winner == i) {
+						scores[i] += bet.getBet() + this.score[i]
+								+ this.score[bet.getDeclarer()];
+					} else {
+						scores[i] += this.score[i];
+					}
 				}
 			}
 		}
 
+		this.roundScore(scores);
 		ScoreTurn turn = new ScoreTurn(bet, scores);
 		game.getScore().addTurn(turn);
 		View miseFragment = getActivity().findViewById(R.id.playFragment);
@@ -224,10 +284,53 @@ public class PlayFragment extends Fragment {
 		listener.onPlayDone();
 	}
 
+	private void roundScore(int[] scores) {
+		for (int i = 0; i < scores.length; i++) {
+			int modulo = scores[i] % 10;
+			scores[i] = scores[i] - modulo;
+			if (modulo > 5) {
+				scores[i] += 10;
+			}
+		}
+	}
+	
 	private void resetAll(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			EditText editText = (EditText) getActivity().findViewById(ids[i]);
 			editText.setText("");
+		}
+	}
+
+	public void initCoincheButtonVisibility() {
+		Bet bet = this.listener.getGame().getBet();
+		for (int i = 0; i < coincheId.length; i++) {
+			Button button = (Button) getView().findViewById(coincheId[i]);
+			button.setText(R.string.coinche);
+			if (bet.getDeclarer() == i) {
+				button.setVisibility(View.INVISIBLE);
+			} else {
+				button.setVisibility(View.VISIBLE);
+			}
+		}
+	}
+
+	private void coinched(int team) {
+		Bet bet = this.listener.getGame().getBet();
+		if (bet.isCoinched()) {
+			bet.setOverCoinched(true);
+			Button button = (Button) getView().findViewById(coincheId[team]);
+			button.setVisibility(View.INVISIBLE);
+		} else {
+			bet.setCoinched(team);
+			for (int i = 0; i < coincheId.length; i++) {
+				Button button = (Button) getView().findViewById(coincheId[i]);
+				if (bet.getDeclarer() == i) {
+					button.setText(R.string.surCoinche);
+					button.setVisibility(View.VISIBLE);
+				} else {
+					button.setVisibility(View.INVISIBLE);
+				}
+			}
 		}
 	}
 }

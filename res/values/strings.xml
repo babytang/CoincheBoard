@@ -42,5 +42,7 @@
     <string name="teamThreeBonus">Team three bonus</string>
     <string name="valid">Valid</string>
     <string name="dogScore">Dog score</string>
-
+    <string name="coinche">Coinche</string>
+    <string name="surCoinche">Sur-coinche</string>
+    
 </resources>

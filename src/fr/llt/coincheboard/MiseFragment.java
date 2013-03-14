@@ -25,7 +25,7 @@ public class MiseFragment extends Fragment {
 			R.id.button5, R.id.button6, R.id.button7 };
 
 	private static int[] teamToggleButtonId = new int[] { R.id.validButton,
-			R.id.button2, R.id.button3 };
+			R.id.teamTwoCoinche, R.id.teamThreeCoinche };
 
 	private static int[] scoreToggleButtonId = new int[] { R.id.toggleButton1,
 			R.id.toggleButton2, R.id.toggleButton3, R.id.toggleButton13,
@@ -93,7 +93,7 @@ public class MiseFragment extends Fragment {
 		}, R.id.button9);
 
 		if (this.listener.getGame().getTeams().getNumberOfTeam() == 2) {
-			view.findViewById(R.id.button3).setVisibility(View.INVISIBLE);
+			view.findViewById(R.id.teamThreeCoinche).setVisibility(View.INVISIBLE);
 		}
 		
 		return view;
