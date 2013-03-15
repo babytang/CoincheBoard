@@ -35,10 +35,10 @@
         </EditText>
 
         <Button
-            android:id="@+id/teamOneCoinche"
+            android:id="@+id/teamOneBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/coinche" />
+            android:text="@string/belote" />
 
     </LinearLayout>
 
@@ -64,10 +64,10 @@
             android:hint="@string/teamTwoBonus" />
 
         <Button
-            android:id="@+id/teamTwoCoinche"
+            android:id="@+id/teamTwoBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/coinche" />
+            android:text="@string/belote" />
 
     </LinearLayout>
 
@@ -93,10 +93,10 @@
             android:hint="@string/teamThreeBonus" />
 
         <Button
-            android:id="@+id/teamThreeCoinche"
+            android:id="@+id/teamThreeBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/coinche" />
+            android:text="@string/belote" />
 
     </LinearLayout>
 

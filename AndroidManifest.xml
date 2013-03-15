@@ -42,6 +42,10 @@
             android:name="fr.llt.coincheboard.PlayFragment"
             android:label="@string/title_activity_play_fragment" >
         </activity>
+        <activity
+            android:name="fr.llt.coincheboard.CoincheDialog"
+            android:label="@string/title_activity_coinche_dialog" >
+        </activity>
     </application>
 
 </manifest>

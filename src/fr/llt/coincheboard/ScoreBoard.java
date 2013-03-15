@@ -76,7 +76,7 @@ public class ScoreBoard extends FragmentActivity implements
 	public void onMiseDone() {
 		PlayFragment playFragement = (PlayFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.playFragment);
-		playFragement.initCoincheButtonVisibility();
+		playFragement.initBeloteButtonVisibility();
 
 		findViewById(R.id.playFragment).setVisibility(View.VISIBLE);
 	}

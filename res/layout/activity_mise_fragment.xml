@@ -67,7 +67,7 @@
         android:layout_height="wrap_content" >
 
         <ToggleButton
-            android:id="@+id/teamTwoCoinche"
+            android:id="@+id/teamTwoBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/teamTwo"
@@ -119,7 +119,7 @@
         android:layout_height="wrap_content" >
 
         <ToggleButton
-            android:id="@+id/teamThreeCoinche"
+            android:id="@+id/teamThreeBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/teamThree"
@@ -214,6 +214,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/more" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/coincheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="3"
+            android:text="@string/coinche" />
+
     </TableRow>
 
 </TableLayout>

@@ -20,6 +20,7 @@ public class PlayFragment extends Fragment {
 	// 0-2 are team
 	// 3 is dog
 	private final int[] score = new int[4];
+	private int beloteTeam;
 	private int lastUpdatedIndex = -1;
 
 	private static final int[] scoreId = new int[] { R.id.teamOneScore,
@@ -28,8 +29,8 @@ public class PlayFragment extends Fragment {
 	private static final int[] bonusId = new int[] { R.id.teamOneBonus,
 			R.id.teamTwoBonus, R.id.teamThreeBonus };
 
-	private static final int[] coincheId = new int[] { R.id.teamOneCoinche,
-			R.id.teamTwoCoinche, R.id.teamThreeCoinche };
+	private static final int[] beloteId = new int[] { R.id.teamOneBelote,
+			R.id.teamTwoBelote, R.id.teamThreeBelote };
 
 	private PlayFragmentListener listener;
 
@@ -69,16 +70,16 @@ public class PlayFragment extends Fragment {
 		}
 	}
 
-	private class CoincheButtonListener implements OnClickListener {
+	private class BeloteButtonListener implements OnClickListener {
 		private int team;
 
-		public CoincheButtonListener(int team) {
+		public BeloteButtonListener(int team) {
 			this.team = team;
 		}
 
 		@Override
 		public void onClick(View v) {
-			coinched(this.team);
+			belote(this.team);
 		}
 	}
 
@@ -116,9 +117,9 @@ public class PlayFragment extends Fragment {
 
 		this.reset();
 
-		for (int i = 0; i < coincheId.length; i++) {
-			Button coincheButton = (Button) view.findViewById(coincheId[i]);
-			coincheButton.setOnClickListener(new CoincheButtonListener(i));
+		for (int i = 0; i < beloteId.length; i++) {
+			Button beloteButton = (Button) view.findViewById(beloteId[i]);
+			beloteButton.setOnClickListener(new BeloteButtonListener(i));
 		}
 
 		return view;
@@ -135,6 +136,7 @@ public class PlayFragment extends Fragment {
 			this.score[i] = -1;
 		}
 		this.lastUpdatedIndex = -1;
+		this.beloteTeam = -1;
 	}
 
 	private void scoreUpdated(int index, int score) {
@@ -197,6 +199,10 @@ public class PlayFragment extends Fragment {
 			}
 		}
 
+		if (this.beloteTeam != -1) {
+			scores[this.beloteTeam] += 20;
+		}
+
 		int totalTeam = scores[bet.getDeclarer()]
 				+ this.score[bet.getDeclarer()];
 		int bestScore = -1;
@@ -231,6 +237,11 @@ public class PlayFragment extends Fragment {
 						scores[i] += bet.getBet()
 								+ (this.score[i] + this.score[bet.getCoinched()])
 								* multiplier;
+					} else {
+						scores[i] = 0;
+						if (this.beloteTeam == i) {
+							scores[i] = 20;
+						}
 					}
 				} else {
 					if (i == bet.getCoinched()) {
@@ -238,6 +249,11 @@ public class PlayFragment extends Fragment {
 							scores[i] += bet.getBet()
 									+ (this.score[i] + this.score[bet
 											.getDeclarer()]) * multiplier;
+						} else {
+							scores[i] = 0;
+							if (this.beloteTeam == i) {
+								scores[i] = 20;
+							}
 						}
 					} else {
 						if (winner == i || specialCase) {
@@ -256,6 +272,11 @@ public class PlayFragment extends Fragment {
 				if (i == bet.getDeclarer()) {
 					if (win) {
 						scores[i] += bet.getBet() + this.score[i];
+					} else {
+						scores[i] = 0;
+						if (this.beloteTeam == i) {
+							scores[i] = 20;
+						}
 					}
 				} else {
 					if (specialCase || winner == i) {
@@ -293,7 +314,7 @@ public class PlayFragment extends Fragment {
 			}
 		}
 	}
-	
+
 	private void resetAll(int... ids) {
 		for (int i = 0; i < ids.length; i++) {
 			EditText editText = (EditText) getActivity().findViewById(ids[i]);
@@ -301,35 +322,23 @@ public class PlayFragment extends Fragment {
 		}
 	}
 
-	public void initCoincheButtonVisibility() {
-		Bet bet = this.listener.getGame().getBet();
-		for (int i = 0; i < coincheId.length; i++) {
-			Button button = (Button) getView().findViewById(coincheId[i]);
-			button.setText(R.string.coinche);
-			if (bet.getDeclarer() == i) {
-				button.setVisibility(View.INVISIBLE);
-			} else {
-				button.setVisibility(View.VISIBLE);
-			}
+	public void initBeloteButtonVisibility() {
+		for (int i = 0; i < beloteId.length; i++) {
+			Button button = (Button) getView().findViewById(beloteId[i]);
+			button.setVisibility(View.VISIBLE);
+			button.setEnabled(true);
 		}
 	}
 
-	private void coinched(int team) {
-		Bet bet = this.listener.getGame().getBet();
-		if (bet.isCoinched()) {
-			bet.setOverCoinched(true);
-			Button button = (Button) getView().findViewById(coincheId[team]);
-			button.setVisibility(View.INVISIBLE);
-		} else {
-			bet.setCoinched(team);
-			for (int i = 0; i < coincheId.length; i++) {
-				Button button = (Button) getView().findViewById(coincheId[i]);
-				if (bet.getDeclarer() == i) {
-					button.setText(R.string.surCoinche);
-					button.setVisibility(View.VISIBLE);
-				} else {
-					button.setVisibility(View.INVISIBLE);
-				}
+	private void belote(int team) {
+		this.beloteTeam = team;
+
+		for (int i = 0; i < beloteId.length; i++) {
+			Button button = (Button) getView().findViewById(beloteId[i]);
+			if (i == team) {
+				button.setEnabled(false);
+			} else {
+				button.setVisibility(View.INVISIBLE);
 			}
 		}
 	}

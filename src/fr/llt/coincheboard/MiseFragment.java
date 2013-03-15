@@ -2,22 +2,25 @@ package fr.llt.coincheboard;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ToggleButton;
+import fr.llt.coincheboard.CoincheDialog.CoincheDialogListener;
 import fr.llt.coincheboard.data.Bet;
 import fr.llt.coincheboard.data.Game;
 
-public class MiseFragment extends Fragment {
+public class MiseFragment extends Fragment implements CoincheDialogListener {
 	public static interface MiseFragmentListener {
 		void onSkip();
 
 		void onMiseDone();
-		
+
 		Game getGame();
 	}
 
@@ -25,7 +28,7 @@ public class MiseFragment extends Fragment {
 			R.id.button5, R.id.button6, R.id.button7 };
 
 	private static int[] teamToggleButtonId = new int[] { R.id.validButton,
-			R.id.teamTwoCoinche, R.id.teamThreeCoinche };
+			R.id.teamTwoBelote, R.id.teamThreeBelote };
 
 	private static int[] scoreToggleButtonId = new int[] { R.id.toggleButton1,
 			R.id.toggleButton2, R.id.toggleButton3, R.id.toggleButton13,
@@ -44,11 +47,17 @@ public class MiseFragment extends Fragment {
 
 	private MiseFragmentListener listener;
 
+	private int coinchedTeam;
+
+	private boolean overCoinche;
+
 	private void reset() {
 		this.more = true;
 		this.bet = -1;
 		this.trumpSuit = -1;
 		this.declarer = -1;
+		this.coinchedTeam = -1;
+		this.overCoinche = false;
 	}
 
 	@Override
@@ -92,10 +101,20 @@ public class MiseFragment extends Fragment {
 			}
 		}, R.id.button9);
 
+		addClickListener(view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showCoincheDialog();
+			}
+		}, R.id.coincheButton);
+
 		if (this.listener.getGame().getTeams().getNumberOfTeam() == 2) {
-			view.findViewById(R.id.teamThreeCoinche).setVisibility(View.INVISIBLE);
+			view.findViewById(R.id.teamThreeBelote).setVisibility(
+					View.INVISIBLE);
 		}
-		
+
+		view.findViewById(R.id.coincheButton).setVisibility(View.INVISIBLE);
+
 		return view;
 	}
 
@@ -158,6 +177,8 @@ public class MiseFragment extends Fragment {
 
 	public void teamChosen(View view) {
 		this.declarer = resetOtherToggleButton(view.getId(), teamToggleButtonId);
+		this.getView().findViewById(R.id.coincheButton)
+				.setVisibility(View.VISIBLE);
 		this.checkMiseDone();
 	}
 
@@ -181,12 +202,17 @@ public class MiseFragment extends Fragment {
 		this.resetOtherToggleButton(-1, colorToggleButtonId);
 		this.resetOtherToggleButton(-1, scoreToggleButtonId);
 		this.resetOtherToggleButton(-1, teamToggleButtonId);
+		Button button = (Button) this.getView()
+				.findViewById(R.id.coincheButton);
+		button.setText(R.string.coinche);
+		button.setVisibility(View.INVISIBLE);
 
 		this.listener.onSkip();
 	}
 
 	private int getStartScore() {
-		int start = this.listener.getGame().getTeams().getNumberOfTeam() == 2 ? 80 : 70;
+		int start = this.listener.getGame().getTeams().getNumberOfTeam() == 2 ? 80
+				: 70;
 		start += this.more ? scoreToggleButtonId.length * 10 : 0;
 		return start;
 	}
@@ -194,11 +220,71 @@ public class MiseFragment extends Fragment {
 	private void checkMiseDone() {
 		if (this.bet != -1 && this.trumpSuit != -1 && this.declarer != -1) {
 			Bet bet = new Bet(this.declarer, this.bet, this.trumpSuit);
+			bet.setCoinched(this.coinchedTeam);
+			bet.setOverCoinched(this.overCoinche);
 			this.listener.getGame().setBet(bet);
 
 			View miseFragment = getActivity().findViewById(R.id.miseFragment);
 			miseFragment.setVisibility(View.INVISIBLE);
 			this.listener.onMiseDone();
+		}
+	}
+
+	private void showCoincheDialog() {
+		if (this.coinchedTeam == -1) {
+			if (this.listener.getGame().getTeams().getNumberOfTeam() == 2) {
+				ToggleButton toggleButton = (ToggleButton) this.getView()
+						.findViewById(teamToggleButtonId[0]);
+				if (toggleButton.isChecked()) {
+					this.coinchedTeam = 1;
+				} else {
+					this.coinchedTeam = 0;
+				}
+				updateCoincheButtonText(R.string.surCoinche);
+
+			} else {
+				// DialogFragment.show() will take care of adding the fragment
+				// in a transaction. We also want to remove any currently
+				// showing
+				// dialog, so make our own transaction and take care of that
+				// here.
+				FragmentTransaction ft = getFragmentManager()
+						.beginTransaction();
+				Fragment prev = getFragmentManager()
+						.findFragmentByTag("dialog");
+				if (prev != null) {
+					ft.remove(prev);
+				}
+				ft.addToBackStack(null);
+
+				// Create and show the dialog.
+				DialogFragment newFragment = CoincheDialog.newInstance();
+				newFragment.show(ft, "dialog");
+			}
+
+		} else {
+			this.overCoinche = true;
+			this.getView().findViewById(R.id.coincheButton)
+					.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	private void updateCoincheButtonText(int stringId) {
+		Button button = (Button) this.getView().findViewById(R.id.coincheButton);
+		button.setText(stringId);
+	}
+
+	@Override
+	public void onCloseListener(int selectedTeam) {
+		this.coinchedTeam = selectedTeam;
+
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment dialog = getFragmentManager().findFragmentByTag("dialog");
+		ft.remove(dialog);
+		ft.commit();
+
+		if (this.coinchedTeam != -1) {
+			updateCoincheButtonText(R.string.surCoinche);
 		}
 	}
 }

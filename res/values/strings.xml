@@ -44,5 +44,8 @@
     <string name="dogScore">Dog score</string>
     <string name="coinche">Coinche</string>
     <string name="surCoinche">Sur-coinche</string>
-    
+    <string name="title_activity_coinche_dialog">CoincheDialog</string>
+    <string name="askCoincheTeam">Select the team that perform the coinche ?</string>
+    <string name="belote">Belote</string>
+
 </resources>
