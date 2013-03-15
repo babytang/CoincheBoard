@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/teamOneScore" />
+            android:hint="@string/teamOneScore"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/teamOneBonus"
@@ -29,7 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/teamOneBonus" >
+            android:hint="@string/teamOneBonus"
+            android:inputType="number" >
 
             <requestFocus />
         </EditText>
@@ -39,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/belote" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -53,7 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/teamTwoScore" />
+            android:hint="@string/teamTwoScore"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/teamTwoBonus"
@@ -61,14 +63,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/teamTwoBonus" />
+            android:hint="@string/teamTwoBonus"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/teamTwoBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/belote" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +84,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/teamThreeScore" />
+            android:hint="@string/teamThreeScore"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/teamThreeBonus"
@@ -90,14 +93,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/teamThreeBonus" />
+            android:hint="@string/teamThreeBonus"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/teamThreeBelote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/belote" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -110,7 +113,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:ems="10"
-            android:hint="@string/dogScore" />
+            android:hint="@string/dogScore"
+            android:inputType="number" />
 
         <View
             android:layout_width="0dp"
@@ -123,7 +127,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/valid" />
-
     </LinearLayout>
 
 </LinearLayout>
