@@ -1,0 +1,233 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/miseTable"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MiseFragment" >
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ToggleButton
+            android:id="@+id/validButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teamOne"
+            android:textOff="@string/teamOne"
+            android:textOn="@string/teamOne" />
+
+        <ToggleButton
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spade"
+            android:textOff="@string/spade"
+            android:textOn="@string/spade" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ToggleButton
+            android:id="@+id/teamTwoBelote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teamTwo"
+            android:textOff="@string/teamTwo"
+            android:textOn="@string/teamTwo" />
+
+        <ToggleButton
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heart"
+            android:textOff="@string/heart"
+            android:textOn="@string/heart" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ToggleButton
+            android:id="@+id/teamThreeBelote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teamThree"
+            android:textOff="@string/teamThree"
+            android:textOn="@string/teamThree" />
+
+        <ToggleButton
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/club"
+            android:textOff="@string/club"
+            android:textOn="@string/club" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/skip" />
+
+        <ToggleButton
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/square"
+            android:textOff="@string/square"
+            android:textOn="@string/square" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/more" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/coincheButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="3"
+            android:text="@string/coinche" />
+
+    </TableRow>
+
+</TableLayout>

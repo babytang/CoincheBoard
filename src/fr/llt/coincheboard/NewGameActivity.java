@@ -44,8 +44,8 @@ public class NewGameActivity extends Activity implements
 		// radioGroup.check(R.id.radio4Players);
 		radioGroup.setOnCheckedChangeListener(this);
 
-		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.LinearLayout1);
-		linearLayout.requestFocus();
+		View view = findViewById(R.id.LinearLayout1);
+		view.requestFocus();
 
 		Spinner spinner = (Spinner) findViewById(R.id.dealerSpinner);
 		// CursorAdapter adapter = new DealerAdapter(this, null);
