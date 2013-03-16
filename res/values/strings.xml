@@ -5,7 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="new_game">New Game</string>
     <string name="title_activity_new_game">NewGameActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="numberOfPlayers">Number of players</string>
     <string name="players3">3 players</string>
     <string name="players4">4 Players</string>
@@ -31,7 +30,6 @@
     <string name="skip">Skip</string>
     <string name="more">More</string>
     <string name="less">Less</string>
-    <string name="putScore">Put score</string>
     <string name="title_activity_mise_fragment">MiseFragment</string>
     <string name="title_activity_play_fragment">PlayFragment</string>
     <string name="teamOneScore">Team one score</string>
