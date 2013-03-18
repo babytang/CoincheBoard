@@ -57,7 +57,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/playerNorthName" />
+            android:hint="@string/playerNorthName"
+            android:inputType="textCapWords" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/playerWestName" >
+            android:hint="@string/playerWestName"
+            android:inputType="textCapWords" >
 
             <requestFocus />
         </EditText>
@@ -98,7 +101,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/playerSouthName" />
+            android:hint="@string/playerSouthName"
+            android:inputType="textCapWords" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -117,7 +122,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@string/playerEastName" />
+            android:hint="@string/playerEastName"
+            android:inputType="textCapWords" />
+
     </LinearLayout>
 
     <LinearLayout

@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import fr.llt.coincheboard.CoincheDialog.CoincheDialogListener;
 import fr.llt.coincheboard.data.Bet;
 import fr.llt.coincheboard.data.Game;
+import fr.llt.coincheboard.data.Teams;
 
 public class MiseFragment extends Fragment implements CoincheDialogListener {
 	public static interface MiseFragmentListener {
@@ -108,9 +109,18 @@ public class MiseFragment extends Fragment implements CoincheDialogListener {
 			}
 		}, R.id.coincheButton);
 
-		if (this.listener.getGame().getTeams().getNumberOfTeam() == 2) {
+		Teams teams = this.listener.getGame().getTeams();
+		if (teams.getNumberOfTeam() == 2) {
 			view.findViewById(R.id.teamThreeBelote).setVisibility(
 					View.INVISIBLE);
+		}
+		
+		for (int i = 0; i < teams.getNumberOfTeam(); i++) {
+			ToggleButton button = (ToggleButton) view
+					.findViewById(teamToggleButtonId[i]);
+			button.setText(teams.getTeamName(i));
+			button.setTextOff(teams.getTeamName(i));
+			button.setTextOn(teams.getTeamName(i));
 		}
 
 		view.findViewById(R.id.coincheButton).setVisibility(View.INVISIBLE);
@@ -270,7 +280,8 @@ public class MiseFragment extends Fragment implements CoincheDialogListener {
 	}
 
 	private void updateCoincheButtonText(int stringId) {
-		Button button = (Button) this.getView().findViewById(R.id.coincheButton);
+		Button button = (Button) this.getView()
+				.findViewById(R.id.coincheButton);
 		button.setText(stringId);
 	}
 

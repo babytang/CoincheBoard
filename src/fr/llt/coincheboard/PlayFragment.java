@@ -1,6 +1,7 @@
 package fr.llt.coincheboard;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import fr.llt.coincheboard.data.Bet;
 import fr.llt.coincheboard.data.Game;
 import fr.llt.coincheboard.data.ScoreTurn;
+import fr.llt.coincheboard.data.Teams;
 
 public class PlayFragment extends Fragment {
 	// 0-2 are team
@@ -28,6 +30,14 @@ public class PlayFragment extends Fragment {
 
 	private static final int[] bonusId = new int[] { R.id.teamOneBonus,
 			R.id.teamTwoBonus, R.id.teamThreeBonus };
+
+	private static final int[] scoreStringId = new int[] {
+			R.string.teamOneScore, R.string.teamTwoScore,
+			R.string.teamThreeScore };
+
+	private static final int[] bonusStringId = new int[] {
+			R.string.teamOneBonus, R.string.teamTwoBonus,
+			R.string.teamThreeBonus };
 
 	private static final int[] beloteId = new int[] { R.id.teamOneBelote,
 			R.id.teamTwoBelote, R.id.teamThreeBelote };
@@ -110,10 +120,8 @@ public class PlayFragment extends Fragment {
 			}
 		});
 
-		for (int i = 0; i < this.score.length; i++) {
-			EditText editText = (EditText) view.findViewById(scoreId[i]);
-			editText.addTextChangedListener(new MyTextWatcher(i));
-		}
+		setHintText(view, scoreId, scoreStringId);
+		setHintText(view, bonusId, bonusStringId);
 
 		this.reset();
 
@@ -123,6 +131,20 @@ public class PlayFragment extends Fragment {
 		}
 
 		return view;
+	}
+
+	private void setHintText(View view, int[] buttonId, int[] stringId) {
+		Resources resources = this.getResources();
+		Teams teams = this.listener.getGame().getTeams();
+		for (int i = 0; i < buttonId.length; i++) {
+			EditText editText = (EditText) view.findViewById(buttonId[i]);
+			editText.addTextChangedListener(new MyTextWatcher(i));
+			if (i < stringId.length) {
+				String hint = resources.getString(stringId[i],
+						teams.getTeamName(i));
+				editText.setHint(hint);
+			}
+		}
 	}
 
 	private Button enableValidButton(boolean enable) {

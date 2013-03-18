@@ -56,7 +56,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/playerNorthName" />
+            android:hint="@string/playerNorthName"
+            android:inputType="textCapWords" />
 
         <TextView
             android:id="@+id/playerWest"
@@ -69,7 +70,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/playerWestName" />
+            android:hint="@string/playerWestName"
+            android:inputType="textCapWords" />
 
         <TextView
             android:id="@+id/playerSouth"
@@ -82,7 +84,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/playerSouthName" />
+            android:hint="@string/playerSouthName"
+            android:inputType="textCapWords" />
 
         <TextView
             android:id="@+id/playerEast"
@@ -95,7 +98,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/playerEastName" />
+            android:hint="@string/playerEastName"
+            android:inputType="textCapWords" />
 
         <TextView
             android:id="@+id/textView5"
