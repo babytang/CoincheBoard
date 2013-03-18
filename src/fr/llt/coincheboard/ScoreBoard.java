@@ -1,9 +1,13 @@
 package fr.llt.coincheboard;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -23,6 +27,7 @@ public class ScoreBoard extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setupActionBar();
 
 		this.game = (Game) this.getLastCustomNonConfigurationInstance();
 		if (this.game == null) {
@@ -43,6 +48,66 @@ public class ScoreBoard extends FragmentActivity implements
 		findViewById(R.id.playFragment).setVisibility(View.INVISIBLE);
 	}
 
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			View playView = this.findViewById(R.id.playFragment);
+			if (playView.getVisibility() == View.VISIBLE) {
+				// In this case return to the bet activity.
+				playView.setVisibility(View.INVISIBLE);
+				this.previousDealer();
+				this.onPlayDone();
+
+			} else {
+				this.showQuitDialog();
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void showQuitDialog() {
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					ScoreBoard.this.finish();
+					break;
+
+				case DialogInterface.BUTTON_NEGATIVE:
+					// No button clicked
+					break;
+				}
+			}
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.quitMessage)
+				.setPositiveButton(R.string.yesMessage, dialogClickListener)
+				.setNegativeButton(R.string.noMessage, dialogClickListener)
+				.show();
+	}
+
+	private void previousDealer() {
+		int currentDealer = this.game.getDealer() - 1;
+		if (currentDealer < 0) {
+			currentDealer = this.game.getTeams().getNumberOfPlayer() - 1;
+		}
+		this.game.setDealer(currentDealer);
+	}
+
 	private void nextDealer() {
 		int currentDealer = this.game.getDealer() + 1;
 		if (currentDealer >= this.game.getTeams().getNumberOfPlayer()) {
@@ -55,13 +120,6 @@ public class ScoreBoard extends FragmentActivity implements
 	private void updateCurrentDealer() {
 		TextView textView = (TextView) findViewById(R.id.dealerTextView);
 		textView.setText(this.game.getTeams().getName(this.game.getDealer()));
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.score_board, menu);
-		return true;
 	}
 
 	public void updateScore(View view) {

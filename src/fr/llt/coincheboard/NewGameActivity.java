@@ -3,9 +3,6 @@ package fr.llt.coincheboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.llt.coincheboard.data.Game;
-import fr.llt.coincheboard.data.Teams;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,12 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+import fr.llt.coincheboard.data.Game;
+import fr.llt.coincheboard.data.Teams;
 
 public class NewGameActivity extends Activity implements
 		OnCheckedChangeListener {

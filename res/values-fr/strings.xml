@@ -45,5 +45,8 @@
     <string name="title_activity_coinche_dialog">CoincheDialog</string>
     <string name="askCoincheTeam">Selectionné l\'équipe qui a coinché ?</string>
     <string name="belote">Belote</string>
-
+    <string name="quitMessage">Voulez vous quitter la partie courante ?</string>
+    <string name="yesMessage">Oui</string>
+    <string name="noMessage">Non</string>
+    
 </resources>

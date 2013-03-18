@@ -45,5 +45,8 @@
     <string name="title_activity_coinche_dialog">CoincheDialog</string>
     <string name="askCoincheTeam">Select the team that perform the coinche ?</string>
     <string name="belote">Belote</string>
+    <string name="quitMessage">Do you want to quit the current game ?</string>
+    <string name="yesMessage">Yes</string>
+    <string name="noMessage">No</string>
 
 </resources>
