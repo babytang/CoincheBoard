@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
@@ -62,19 +63,33 @@ public class ScoreBoard extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			View playView = this.findViewById(R.id.playFragment);
-			if (playView.getVisibility() == View.VISIBLE) {
-				// In this case return to the bet activity.
-				playView.setVisibility(View.INVISIBLE);
-				this.previousDealer();
-				this.onPlayDone();
-
-			} else {
-				this.showQuitDialog();
-			}
+			checkBack();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void checkBack() {
+		View playView = this.findViewById(R.id.playFragment);
+		if (playView.getVisibility() == View.VISIBLE) {
+			// In this case return to the bet activity.
+			playView.setVisibility(View.INVISIBLE);
+			this.previousDealer();
+			this.onPlayDone();
+
+		} else {
+			this.showQuitDialog();
+		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)  {
+	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			checkBack();
+	        return true;
+	    }
+
+	    return super.onKeyDown(keyCode, event);
 	}
 
 	private void showQuitDialog() {
@@ -120,9 +135,6 @@ public class ScoreBoard extends FragmentActivity implements
 	private void updateCurrentDealer() {
 		TextView textView = (TextView) findViewById(R.id.dealerTextView);
 		textView.setText(this.game.getTeams().getName(this.game.getDealer()));
-	}
-
-	public void updateScore(View view) {
 	}
 
 	@Override
