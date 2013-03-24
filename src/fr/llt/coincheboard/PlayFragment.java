@@ -17,6 +17,8 @@ import fr.llt.coincheboard.data.Bet;
 import fr.llt.coincheboard.data.Game;
 import fr.llt.coincheboard.data.ScoreTurn;
 import fr.llt.coincheboard.data.Teams;
+import fr.llt.coincheboard.logic.ComputerData;
+import fr.llt.coincheboard.logic.ScoreComputer;
 
 public class PlayFragment extends Fragment {
 	// 0-2 are team
@@ -48,6 +50,8 @@ public class PlayFragment extends Fragment {
 		void onPlayDone();
 
 		Game getGame();
+
+		ScoreComputer getScoreComputer();
 	}
 
 	private class MyTextWatcher implements TextWatcher {
@@ -212,107 +216,25 @@ public class PlayFragment extends Fragment {
 		Game game = this.listener.getGame();
 		Bet bet = game.getBet();
 
-		int[] scores = new int[game.getTeams().getNumberOfTeam()];
-		for (int i = 0; i < scores.length; i++) {
+		int[] bonusScore = new int[game.getTeams().getNumberOfTeam()];
+		for (int i = 0; i < bonusScore.length; i++) {
 			EditText editText = (EditText) this.getActivity().findViewById(
 					bonusId[i]);
 			if (editText.getText().length() != 0) {
-				scores[i] = Integer.parseInt(editText.getText().toString());
+				bonusScore[i] = Integer.parseInt(editText.getText().toString());
 			}
 		}
 
+		int[] beloteScore = new int[game.getTeams().getNumberOfTeam()];
 		if (this.beloteTeam != -1) {
-			scores[this.beloteTeam] += 20;
+			beloteScore[this.beloteTeam] = 20;
 		}
 
-		int totalTeam = scores[bet.getDeclarer()]
-				+ this.score[bet.getDeclarer()];
-		int bestScore = -1;
-		boolean win = totalTeam >= bet.getBet();
-		int winner = bet.getDeclarer();
-		boolean specialCase = false;
-		for (int i = 0; i < scores.length; i++) {
-			if (i == bet.getDeclarer()) {
-				continue;
-			}
-			int otherScore = scores[i] + this.score[i];
-			if (totalTeam <= otherScore || !win) {
-				win = false;
-				if (otherScore > bestScore) {
-					bestScore = otherScore;
-					winner = i;
-				} else if (otherScore == bestScore) {
-					specialCase = true;
-				}
-			}
-		}
+		ComputerData computerData = new ComputerData(game.getBet(), this.score,
+				bonusScore, beloteScore);
+		this.listener.getScoreComputer().compute(computerData);
+		ScoreTurn turn = new ScoreTurn(bet, computerData.getScore());
 
-		// TODO very ugly should be simplified.
-		if (bet.isCoinched()) {
-			int multiplier = 2;
-			if (bet.isOverCoinched()) {
-				multiplier = 3;
-			}
-			for (int i = 0; i < scores.length; i++) {
-				if (i == bet.getDeclarer()) {
-					if (win) {
-						scores[i] += bet.getBet()
-								+ (this.score[i] + this.score[bet.getCoinched()])
-								* multiplier;
-					} else {
-						scores[i] = 0;
-						if (this.beloteTeam == i) {
-							scores[i] = 20;
-						}
-					}
-				} else {
-					if (i == bet.getCoinched()) {
-						if (winner == i && !specialCase) {
-							scores[i] += bet.getBet()
-									+ (this.score[i] + this.score[bet
-											.getDeclarer()]) * multiplier;
-						} else {
-							scores[i] = 0;
-							if (this.beloteTeam == i) {
-								scores[i] = 20;
-							}
-						}
-					} else {
-						if (winner == i || specialCase) {
-							scores[i] += bet.getBet()
-									+ (this.score[i]
-											+ this.score[bet.getDeclarer()] + this.score[bet
-												.getCoinched()]) * multiplier;
-						} else {
-							scores[i] += this.score[i];
-						}
-					}
-				}
-			}
-		} else {
-			for (int i = 0; i < scores.length; i++) {
-				if (i == bet.getDeclarer()) {
-					if (win) {
-						scores[i] += bet.getBet() + this.score[i];
-					} else {
-						scores[i] = 0;
-						if (this.beloteTeam == i) {
-							scores[i] = 20;
-						}
-					}
-				} else {
-					if (specialCase || winner == i) {
-						scores[i] += bet.getBet() + this.score[i]
-								+ this.score[bet.getDeclarer()];
-					} else {
-						scores[i] += this.score[i];
-					}
-				}
-			}
-		}
-
-		this.roundScore(scores);
-		ScoreTurn turn = new ScoreTurn(bet, scores);
 		game.getScore().addTurn(turn);
 		View miseFragment = getActivity().findViewById(R.id.playFragment);
 		miseFragment.setVisibility(View.INVISIBLE);
@@ -325,16 +247,6 @@ public class PlayFragment extends Fragment {
 		button.setEnabled(false);
 
 		listener.onPlayDone();
-	}
-
-	private void roundScore(int[] scores) {
-		for (int i = 0; i < scores.length; i++) {
-			int modulo = scores[i] % 10;
-			scores[i] = scores[i] - modulo;
-			if (modulo > 5) {
-				scores[i] += 10;
-			}
-		}
 	}
 
 	private void resetAll(int... ids) {

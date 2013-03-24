@@ -12,13 +12,13 @@ public class Bet implements Parcelable {
 		public Bet[] newArray(int size) {
 			return new Bet[size];
 		}
-		
+
 		@Override
 		public Bet createFromParcel(Parcel source) {
 			return new Bet(source);
 		}
 	};
-	
+
 	/**
 	 * The team that win the bidding.
 	 */
@@ -33,12 +33,12 @@ public class Bet implements Parcelable {
 	 * The color of the trump. 0: spades, 1: hearts, 2: clubs and 3: diamonds
 	 */
 	private final int trumpSuit;
-	
+
 	/**
 	 * -1 if not coinched, if not it's the team number that coinched.
 	 */
 	private int coinched;
-	
+
 	/**
 	 * true if the declarer has over-coinched.
 	 */
@@ -50,7 +50,7 @@ public class Bet implements Parcelable {
 		this.trumpSuit = trumpSuit;
 		this.coinched = -1;
 	}
-	
+
 	private Bet(Parcel source) {
 		this.coinched = source.readInt();
 		this.bet = source.readInt();
@@ -70,11 +70,11 @@ public class Bet implements Parcelable {
 	public int getTrumpSuit() {
 		return this.trumpSuit;
 	}
-	
+
 	public int getCoinched() {
 		return this.coinched;
 	}
-	
+
 	public boolean isCoinched() {
 		return this.coinched != -1;
 	}
@@ -103,5 +103,12 @@ public class Bet implements Parcelable {
 		dest.writeInt(this.declarer);
 		dest.writeByte((byte) (this.overCoinched ? 1 : 0));
 		dest.writeInt(this.trumpSuit);
+	}
+
+	@Override
+	public String toString() {
+		return "Bet [declarer=" + declarer + ", bet=" + bet + ", trumpSuit="
+				+ trumpSuit + ", coinched=" + coinched + ", overCoinched="
+				+ overCoinched + "]";
 	}
 }

@@ -15,14 +15,23 @@ import android.widget.TextView;
 import fr.llt.coincheboard.MiseFragment.MiseFragmentListener;
 import fr.llt.coincheboard.PlayFragment.PlayFragmentListener;
 import fr.llt.coincheboard.data.Game;
+import fr.llt.coincheboard.logic.RoundComputerOver6;
+import fr.llt.coincheboard.logic.ScoreComputer;
 
 public class ScoreBoard extends FragmentActivity implements
 		MiseFragmentListener, PlayFragmentListener {
 	private ScoreAdapter scoreAdapter;
 	private Game game;
+	private ScoreComputer scoreComputer = new ScoreComputer(new RoundComputerOver6());
 
+	@Override
 	public Game getGame() {
 		return this.game;
+	}
+	
+	@Override
+	public ScoreComputer getScoreComputer() {
+		return this.scoreComputer;
 	}
 
 	@Override
