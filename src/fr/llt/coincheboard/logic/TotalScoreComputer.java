@@ -76,9 +76,13 @@ public abstract class TotalScoreComputer {
 				totalOpponent[i] = data.getBelote(adversaryCurrent);
 
 			} else {
-				totalOpponent[i] = data.getBaseScore(adversaryCurrent)
-						+ data.getBonusScore(adversaryCurrent)
-						+ data.getBelote(adversaryCurrent);
+				if (data.getBaseScore(adversaryCurrent) == 0) {
+					totalOpponent[i] = data.getBelote(adversaryCurrent);
+				} else {
+					totalOpponent[i] = data.getBaseScore(adversaryCurrent)
+							+ data.getBonusScore(adversaryCurrent)
+							+ data.getBelote(adversaryCurrent);
+				}
 			}
 		}
 
@@ -102,9 +106,13 @@ public abstract class TotalScoreComputer {
 					+ data.getBonusScore(declarer) + data.getBelote(declarer)
 					+ bet.getBet();
 			for (int i = 0; i < opponent.length; i++) {
-				totalOpponent[i] = data.getBaseScore(opponent[i])
-						+ data.getBonusScore(opponent[i])
-						+ data.getBelote(opponent[i]);
+				if (data.getBaseScore(opponent[i]) == 0) {
+					totalOpponent[i] = data.getBelote(opponent[i]);
+				} else {
+					totalOpponent[i] = data.getBaseScore(opponent[i])
+							+ data.getBonusScore(opponent[i])
+							+ data.getBelote(opponent[i]);
+				}
 			}
 
 		} else {

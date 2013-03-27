@@ -184,6 +184,13 @@ public class TestComputers extends TestCase {
 		result.add(B.b(2, 80).s(30, 80, 40).bo(5, 5, 5).b(1, 1, 1).oc(0).e(1, 546, 1));
 		result.add(B.b(2, 80).s(30, 80, 40).bo(5, 5, 5).b(1, 1, 1).oc(1).e(36, 451, 1));
 		
+		// Capot test case
+		result.add(B.b(0, 80).s(250, 0).bo(5, 5).b(1, 1).nc().e(336, 1));
+		result.add(B.b(1, 80).s(250, 0).bo(5, 5).b(1, 1).nc().e(341, 1));
+		result.add(B.b(0, 80).s(100, 0, 20).bo(5, 5, 5).b(1, 1, 1).nc().e(186, 1, 26));
+		result.add(B.b(0, 80).s(100, 0, 0).bo(5, 5, 5).b(1, 1, 1).nc().e(186, 1, 1));
+		result.add(B.b(2, 80).s(100, 0, 20).bo(5, 5, 5).b(1, 1, 1).nc().e(211, 1, 1));
+		
 		return result.toArray(new Data[result.size()]);
 	}
 
