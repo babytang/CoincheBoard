@@ -1,0 +1,49 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Score settings -->
+    <string name="pref_header_score">Score</string>
+    <string name="pref_title_win_by">Win if the following is over the bet</string>
+    <string name="pref_title_round">Round score</string>
+
+    <string-array name="pref_win_by_list">
+        <item>Card score only</item>
+        <item>Card score + announce + belote</item>
+    </string-array>
+    <string-array name="pref_win_by_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="pref_round_list">
+        <item>>= 5 => 10</item>
+        <item>>= 6 => 10</item>
+    </string-array>
+    <string-array name="pref_round_values">
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <!-- coinche settings -->
+    <string name="pref_header_coinche">Coinche</string>
+    <string name="pref_title_coinche_score">Multiply the following part</string>
+    <string name="pref_title_coinche_coeff">Coefficient for the over-coinche</string>
+
+    <string-array name="pref_coinche_score_list">
+        <item>Card point only</item>
+        <item>Card point + announce</item>
+    </string-array>
+    <string-array name="pref_coinche_score_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="pref_coinche_coeff_list">
+        <item>x3</item>
+        <item>x4</item>
+    </string-array>
+    <string-array name="pref_coinche_coeff_values">
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+</resources>

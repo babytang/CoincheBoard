@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -124,8 +123,8 @@ public class PlayFragment extends Fragment {
 			}
 		});
 
-		setHintText(view, scoreId, scoreStringId);
-		setHintText(view, bonusId, bonusStringId);
+		setHintText(view, scoreId, scoreStringId, true);
+		setHintText(view, bonusId, bonusStringId, false);
 
 		this.reset();
 
@@ -137,12 +136,14 @@ public class PlayFragment extends Fragment {
 		return view;
 	}
 
-	private void setHintText(View view, int[] buttonId, int[] stringId) {
+	private void setHintText(View view, int[] buttonId, int[] stringId, boolean addListener) {
 		Resources resources = this.getResources();
 		Teams teams = this.listener.getGame().getTeams();
 		for (int i = 0; i < buttonId.length; i++) {
 			EditText editText = (EditText) view.findViewById(buttonId[i]);
-			editText.addTextChangedListener(new MyTextWatcher(i));
+			if (addListener) {
+				editText.addTextChangedListener(new MyTextWatcher(i));
+			}
 			if (i < stringId.length) {
 				String hint = resources.getString(stringId[i],
 						teams.getTeamName(i));
@@ -208,7 +209,6 @@ public class PlayFragment extends Fragment {
 
 		boolean enableValid = total == 252 || total == 162;
 		Button button = (Button) this.getView().findViewById(R.id.validButton);
-		Log.w("ScoreBoard", "" + button);
 		button.setEnabled(enableValid);
 	}
 

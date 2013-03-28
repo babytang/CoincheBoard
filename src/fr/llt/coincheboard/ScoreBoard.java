@@ -4,8 +4,10 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -15,20 +17,27 @@ import android.widget.TextView;
 import fr.llt.coincheboard.MiseFragment.MiseFragmentListener;
 import fr.llt.coincheboard.PlayFragment.PlayFragmentListener;
 import fr.llt.coincheboard.data.Game;
-import fr.llt.coincheboard.logic.RoundComputerOver6;
+import fr.llt.coincheboard.logic.RawScoreComputer;
+import fr.llt.coincheboard.logic.RawScoreComputerWinWithAnnounce;
+import fr.llt.coincheboard.logic.RawScoreComputerWinWithoutAnnounce;
+import fr.llt.coincheboard.logic.RoundComputer;
+import fr.llt.coincheboard.logic.RoundComputerOverN;
 import fr.llt.coincheboard.logic.ScoreComputer;
+import fr.llt.coincheboard.logic.TotalScoreComputer;
+import fr.llt.coincheboard.logic.TotalScoreComputerCoinchePointWithAnnounce;
+import fr.llt.coincheboard.logic.TotalScoreComputerCoinchePointWithoutAnnounce;
 
 public class ScoreBoard extends FragmentActivity implements
 		MiseFragmentListener, PlayFragmentListener {
 	private ScoreAdapter scoreAdapter;
 	private Game game;
-	private ScoreComputer scoreComputer = new ScoreComputer(new RoundComputerOver6());
+	private ScoreComputer scoreComputer;
 
 	@Override
 	public Game getGame() {
 		return this.game;
 	}
-	
+
 	@Override
 	public ScoreComputer getScoreComputer() {
 		return this.scoreComputer;
@@ -38,6 +47,26 @@ public class ScoreBoard extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setupActionBar();
+
+		SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		int win_by = Integer
+				.parseInt(preferences.getString("win_by_list", "1"));
+		RawScoreComputer rawScoreComputer = win_by == 0 ? new RawScoreComputerWinWithoutAnnounce()
+				: new RawScoreComputerWinWithAnnounce();
+
+		int round = Integer.parseInt(preferences.getString("round_list", "1"));
+		RoundComputer roundComputer = new RoundComputerOverN(round);
+
+		int coeff = Integer.parseInt(preferences.getString(
+				"coinche_coeff_list", "3"));
+		int coinche_score = Integer.parseInt(preferences.getString(
+				"coinche_score_list", "0"));
+		TotalScoreComputer totalScoreComputer = coinche_score == 0 ? new TotalScoreComputerCoinchePointWithoutAnnounce(
+				2, coeff) : new TotalScoreComputerCoinchePointWithAnnounce(2,
+				coeff);
+
+		this.scoreComputer = new ScoreComputer(rawScoreComputer, roundComputer, totalScoreComputer);
 
 		this.game = (Game) this.getLastCustomNonConfigurationInstance();
 		if (this.game == null) {
@@ -90,15 +119,15 @@ public class ScoreBoard extends FragmentActivity implements
 			this.showQuitDialog();
 		}
 	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)  {
-	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-			checkBack();
-	        return true;
-	    }
 
-	    return super.onKeyDown(keyCode, event);
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			checkBack();
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private void showQuitDialog() {

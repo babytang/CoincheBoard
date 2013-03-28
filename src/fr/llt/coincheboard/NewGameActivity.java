@@ -84,6 +84,8 @@ public class NewGameActivity extends Activity implements
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
+		case R.id.action_settings:
+			startActivityForResult(new Intent(this, SettingsActivity.class), 1);
 		}
 		return super.onOptionsItemSelected(item);
 	}

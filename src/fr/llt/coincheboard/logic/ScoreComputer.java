@@ -10,11 +10,16 @@ public class ScoreComputer {
 	private RoundComputer roundComputer;
 
 	public ScoreComputer(RoundComputer roundComputer) {
-		// TODO for now just use default configuration until user preference
-		// will be available.
 		this.rawScoreComputer = new RawScoreComputerWinWithAnnounce();
 		this.totalScoreComputer = new TotalScoreComputerCoinchePointWithoutAnnounce(
 				2, 3);
+		this.roundComputer = roundComputer;
+	}
+
+	public ScoreComputer(RawScoreComputer rawScoreComputer,
+			RoundComputer roundComputer, TotalScoreComputer totalScoreComputer) {
+		this.rawScoreComputer = rawScoreComputer;
+		this.totalScoreComputer = totalScoreComputer;
 		this.roundComputer = roundComputer;
 	}
 

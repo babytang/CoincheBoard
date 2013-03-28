@@ -46,6 +46,10 @@
             android:name="fr.llt.coincheboard.CoincheDialog"
             android:label="@string/title_activity_coinche_dialog" >
         </activity>
+        <activity
+            android:name="fr.llt.coincheboard.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
