@@ -1,0 +1,49 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Score settings -->
+    <string name="pref_header_score">Score</string>
+    <string name="pref_title_win_by">Partie gagnée si au dessus de la mise</string>
+    <string name="pref_title_round">Arrondie</string>
+
+    <string-array name="pref_win_by_list">
+        <item>Points des cartes</item>
+        <item>Points des cartes + annonces + belote</item>
+    </string-array>
+    <string-array name="pref_win_by_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="pref_round_list">
+        <item>>= 5 => 10</item>
+        <item>>= 6 => 10</item>
+    </string-array>
+    <string-array name="pref_round_values">
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <!-- coinche settings -->
+    <string name="pref_header_coinche">Coinche</string>
+    <string name="pref_title_coinche_score">Multiplication des points</string>
+    <string name="pref_title_coinche_coeff">Coefficient pour la sur-coinche</string>
+
+    <string-array name="pref_coinche_score_list">
+        <item>Points des cartes</item>
+        <item>Points des cartes + annonces</item>
+    </string-array>
+    <string-array name="pref_coinche_score_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="pref_coinche_coeff_list">
+        <item>x3</item>
+        <item>x4</item>
+    </string-array>
+    <string-array name="pref_coinche_coeff_values">
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+</resources>
